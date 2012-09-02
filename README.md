@@ -1,3 +1,4 @@
+https://play.google.com/store/apps/details?id=com.hobbyone.HashDroid
 Hash Droid is a free utility to calculate a hash from a given text or from a file stored on the device.
 
 In this application, the available hash functions are : Adler-32, CRC-32, Haval-128, MD2, MD4, MD5, RIPEMD-128, RIPEMD-160, SHA-1, SHA-256, SHA-384, SHA-512, Tiger and Whirlpool.
