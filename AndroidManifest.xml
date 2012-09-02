@@ -3,7 +3,7 @@
     android:installLocation="auto"
     package="com.hobbyone.HashDroid"
     android:versionCode="18"
-    android:versionName="3.1" >
+    android:versionName="3.2" >
 
     <supports-screens
         android:anyDensity="true"

@@ -29,6 +29,14 @@
 				android:layout_height="wrap_content" 
 				android:layout_below="@+id/label_result"
 				android:text="@string/copy_but" android:visibility="invisible"/>
+		<Button
+		    android:id="@+id/CompareCBButon"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_below="@id/CopyButton"
+		    android:text="@string/compare_cb_but"
+		    android:visibility="invisible" />
+
 	</RelativeLayout>
 </LinearLayout>
 </ScrollView>

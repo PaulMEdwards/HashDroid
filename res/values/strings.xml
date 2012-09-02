@@ -17,6 +17,7 @@
 	<string name="calculate_but">Calculate</string>
 	<string name="clear_but">Clear</string>
 	<string name="copy_but">Copy checksum to clipboard</string>
+	<string name="compare_cb_but">Compare checksum with clipboard</string>
 	<string name="Ok_but">Ok</string>
 	<string name="Cancel_but">Cancel</string>
 	<string name="Yes_but">Yes</string>

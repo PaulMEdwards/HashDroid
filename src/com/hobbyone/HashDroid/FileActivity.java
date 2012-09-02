@@ -27,12 +27,14 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.ClipboardManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -49,6 +51,7 @@ public class FileActivity extends Activity implements Runnable {
 	private CheckBox mCheckBox = null;
 	private Button mGenerateButton = null;
 	private Button mCopyButton = null;
+	private Button mCompCBButton = null;
 	private Spinner mSpinner = null;
 	private TextView mResultTV = null;
 	private String msFilePath = "";
@@ -64,6 +67,7 @@ public class FileActivity extends Activity implements Runnable {
 	private File mFileToHash = null;
 	private FileInputStream mFileIS = null;
 	private int miItePos = -1;
+	private static final String TAG = "HashDroid";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -76,7 +80,8 @@ public class FileActivity extends Activity implements Runnable {
 		mSpinner = (Spinner) findViewById(R.id.spinner);
 		mResultTV = (TextView) findViewById(R.id.label_result);
 		mCopyButton = (Button) findViewById(R.id.CopyButton);
-		mClipboard = (ClipboardManager) getSystemService("clipboard");
+		mCompCBButton = (Button) findViewById(R.id.CompareCBButon);
+		mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 		mFunctions = getResources().getStringArray(R.array.Algo_Array);
 		mCheckBox = (CheckBox) findViewById(R.id.UpperCaseCB);
 
@@ -91,9 +96,10 @@ public class FileActivity extends Activity implements Runnable {
 			public void onItemSelected(AdapterView<?> parentView,
 					View selectedItemView, int position, long id) {
 				// your code here
-				// Hide the copy button
+				// Hide the copy & compare buttons
 				if (!msHash.equals(""))
 					mCopyButton.setVisibility(View.INVISIBLE);
+					mCompCBButton.setVisibility(View.INVISIBLE);
 				// Clean the result text view
 				if (mResultTV != null)
 					mResultTV.setText("");
@@ -130,6 +136,8 @@ public class FileActivity extends Activity implements Runnable {
 							mResultTV.setText(sWrongFile);
 						if (mCopyButton != null)
 							mCopyButton.setVisibility(View.INVISIBLE);
+						if (mCompCBButton != null)
+							mCompCBButton.setVisibility(View.INVISIBLE);
 					}
 				}
 			}
@@ -144,6 +152,30 @@ public class FileActivity extends Activity implements Runnable {
 					String sCopied = getString(R.string.copied);
 					Toast.makeText(FileActivity.this, sCopied,
 							Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+
+		mCompCBButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// Perform action on clicks
+				try {
+					if (mClipboard != null) {
+						String sCBContents = mClipboard.getText().toString();
+						Log.i(TAG, "Hash: " + msHash);
+						Log.i(TAG, "Clip: " + sCBContents);
+						if (sCBContents.equalsIgnoreCase(msHash)) {
+							Toast.makeText(FileActivity.this, getString(R.string.IdenticalHashes),
+									Toast.LENGTH_SHORT).show();
+						} else {
+							Toast.makeText(FileActivity.this, getString(R.string.DifferentHashes),
+									Toast.LENGTH_SHORT).show();
+						}
+					}
+				} catch (Exception e) {
+					// Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
@@ -305,6 +337,9 @@ public class FileActivity extends Activity implements Runnable {
 					// Show the copy button
 					if (mCopyButton != null)
 						mCopyButton.setVisibility(View.VISIBLE);
+					// Show the compare clipboard button
+					if (mCompCBButton != null)
+						mCompCBButton.setVisibility(View.VISIBLE);
 				} else {
 					sFileHashTitle = String.format(
 							res.getString(R.string.unable_to_calculate),
@@ -312,6 +347,9 @@ public class FileActivity extends Activity implements Runnable {
 					// Hide the copy button
 					if (mCopyButton != null)
 						mCopyButton.setVisibility(View.INVISIBLE);
+					// Hide the compare clipboard button
+					if (mCompCBButton != null)
+						mCompCBButton.setVisibility(View.INVISIBLE);
 				}
 
 				if (mResultTV != null)
