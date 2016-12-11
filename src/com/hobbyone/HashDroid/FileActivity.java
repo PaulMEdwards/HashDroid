@@ -292,6 +292,7 @@ public class FileActivity extends Activity implements Runnable {
 		handler.sendEmptyMessage(0);
 	}
 
+	// http://stackoverflow.com/a/3758880/1217760
 	private String FileSizeDisplay(long lbytes, boolean bSI) {
 		int unit = bSI ? 1000 : 1024;
 		if (lbytes < unit)
